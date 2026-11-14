@@ -1,0 +1,11 @@
+{
+  "version": "0.1.1",
+  "notes": "Settings: theme & language switching, in-app updater. Breadcrumb disk navigation.",
+  "pub_date": "2026-11-14T00:30:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTWFBpYnc0Rk5td1hlcUJVVUFjOFo3TndxM3VyT05nbE9pREhUN1lGdjBuRDRVdlhFV2hGa1pTV2tUeFdHbG4vdm95bnRubHF0ZW03Zm9VSDdQbG5mRjlIM0ZnRWNXbUFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NjIyOTAwCWZpbGU6Q2Fpcm5fMC4xLjFfeDY0LXNldHVwLmV4ZQpuQ1JneXl3cG92Y0VIYnd4YXhrL2lpQXJiV1FyOENMSUt0SHB2NnJwc2hQK3dLbjUxeSt6Wm9WeGRIczJNemQ5V2JHbWNjOTNlZjJPaDdyNmI2VVlCdz09Cg==",
+      "url": "https://github.com/Learnmore-smart/cairn/releases/download/v0.1.1/Cairn-Setup-Windows-x64.exe"
+    }
+  }
+}

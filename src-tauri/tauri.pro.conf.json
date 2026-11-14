@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "updater": {
+      "endpoints": ["https://cairn.supastack.dev/updates/pro/latest.json"]
+    }
+  }
+}
