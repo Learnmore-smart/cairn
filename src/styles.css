@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0e13;
+  --color-panel: #12161d;
+  --color-raise: #181e27;
+  --color-edge: #232b37;
+  --color-mut: #8494a7;
+  --color-fg: #dbe4ee;
+  --color-accent: #e0a44a;
+  --color-good: #4cc38a;
+  --color-bad: #e5534b;
+  --color-cache: #7aa2f7;
+  --shadow-menu: 0 10px 34px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.04);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Light theme — same structure, contrast-tuned palette. Accent/good/bad
+   darken for readability on white; blue keeps its identity. */
+html[data-theme="light"] {
+  --color-ink: #eef1f5;
+  --color-panel: #ffffff;
+  --color-raise: #f0f3f7;
+  --color-edge: #d9e0e8;
+  --color-mut: #5a6a7c;
+  --color-fg: #182230;
+  --color-accent: #c47f1a;
+  --color-good: #148055;
+  --color-bad: #c93a30;
+  --color-cache: #3b6fd4;
+  --shadow-menu: 0 10px 30px rgb(24 34 48 / 0.16), 0 0 0 1px rgb(24 34 48 / 0.06);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  font-size: 14px;
+  transition: background-color 200ms ease;
+}
+
+/* ---- focus ---- */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+/* ---- scrollbars ---- */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-edge);
+  border-radius: 8px;
+  border: 2px solid var(--color-ink);
+}
+html[data-theme="light"] *::-webkit-scrollbar-thumb {
+  border-color: var(--color-panel);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mut);
+}
+
+/* ---- animations ---- */
+@keyframes tabIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes menuInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes menuInUp {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes bannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.u-tab-in {
+  animation: tabIn 190ms var(--ease-out);
+}
+.u-menu-in {
+  animation: menuInDown 140ms var(--ease-out);
+}
+.u-menu-in[data-side="top"] {
+  animation-name: menuInUp;
+}
+.u-banner-in {
+  animation: bannerIn 160ms var(--ease-out);
+}
+
+/* drillable treemap rects brighten on hover */
+.u-tmap-rect {
+  transition: fill-opacity 130ms ease;
+}
+.u-tmap-rect:hover {
+  fill-opacity: 0.62 !important;
+}
+
+/* indeterminate progress — the scan can't know its total */
+@keyframes slideAcross {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+.u-indeterminate {
+  animation: slideAcross 1.15s var(--ease-out) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-indeterminate {
+    opacity: 0.7; /* static bar still signals progress */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
