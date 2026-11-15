@@ -1,11 +1,19 @@
 {
   "version": "0.2.0",
   "notes": "Drive scans now run automatically in the background — results are ready when you open Disk, and scanning keeps going while the window is minimized or you switch tabs. First macOS build.",
-  "pub_date": "2026-11-15T14:57:52Z",
+  "pub_date": "2026-11-15T16:17:05.044Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTWFBpYnc0Rk5td1NlcmNIVFhmbndDRkxrcGxGVVBpNW5pNzB3ZTRuWkhjMFZQVmUxMUQ3TXk5WXZZNmNMclhJWU53aFFhUy9XTGk2OGdzdmw1UjJCeFNoWVBDNnJUY0F3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NzU0NjM2CWZpbGU6Q2Fpcm5fMC4yLjBfeDY0LXNldHVwLmV4ZQl2ZXJzaW9uOjAuMi4wCnN5czRoYmt5dE92VFUyZVdHbVR5NHFLbHN0UWNIcWxEaWZQanBXc1lKUU94OWdwK3RjZ3J3aFRGaFhOL2FoWkd2d1poOEZibC9kdFg4cEpWZEZzb0J3PT0K",
       "url": "https://github.com/Learnmore-smart/cairn/releases/download/v0.2.0/Cairn-Setup-Windows-x64.exe"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTWFBpYnc0Rk5td1JiZ0thTHZEMU5YK09kR3hXOTh4NHJiUHdTQ3BzMTdhbWE3SFBPTTl2U05yVXdiS0J5MGI2UHJnNkY1Q0RmVDFpUktZYkVnSlg0OTlNbW9kMjd1SmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NzU5MTQxCWZpbGU6Q2Fpcm4uYXBwLnRhci5negl2ZXJzaW9uOjAuMi4wCkszU3Y2OGxSZFEvN0MrUW40aE9NeGRrZGc2TUlFbWFYcXZQZkVQbDJxRFpKcTVQd0JpTGJUVWNPaXdqTXJ4TkJwM1hoc1ZYYThndzF0TGFSRWlVYkRRPT0K",
+      "url": "https://github.com/Learnmore-smart/cairn/releases/download/v0.2.0/Cairn.app.tar.gz"
+    },
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTWFBpYnc0Rk5td1JiZ0thTHZEMU5YK09kR3hXOTh4NHJiUHdTQ3BzMTdhbWE3SFBPTTl2U05yVXdiS0J5MGI2UHJnNkY1Q0RmVDFpUktZYkVnSlg0OTlNbW9kMjd1SmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NzU5MTQxCWZpbGU6Q2Fpcm4uYXBwLnRhci5negl2ZXJzaW9uOjAuMi4wCkszU3Y2OGxSZFEvN0MrUW40aE9NeGRrZGc2TUlFbWFYcXZQZkVQbDJxRFpKcTVQd0JpTGJUVWNPaXdqTXJ4TkJwM1hoc1ZYYThndzF0TGFSRWlVYkRRPT0K",
+      "url": "https://github.com/Learnmore-smart/cairn/releases/download/v0.2.0/Cairn.app.tar.gz"
     }
   }
 }
