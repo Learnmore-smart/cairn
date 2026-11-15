@@ -1,0 +1,48 @@
+[package]
+name = "cairn"
+version = "0.2.0"
+description = "Cairn — memory, disk and asset-protection utility (Tauri)"
+edition = "2021"
+rust-version = "1.90"
+
+[lib]
+name = "cairn_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-autostart = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-single-instance = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sysinfo = "0.33"
+jwalk = "0.8"
+notify = { version = "7", optional = true }
+ed25519-dalek = { version = "2", optional = true }
+base64 = { version = "0.22", optional = true }
+tokio = { version = "1", features = ["full"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+tauri-plugin-updater = "2.9.0"
+tauri-plugin-process = "2.3.0"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+# Open-core split: default builds ship the free tier; `pro` unlocks
+# unlimited vault folders, timed unlock, the delete watchdog and backup.
+pro = ["dep:notify", "dep:ed25519-dalek", "dep:base64"]
+
+[profile.dev]
+incremental = true
+
+[profile.release]
+codegen-units = 1
+incremental = false
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
