@@ -1,6 +1,6 @@
 [package]
 name = "cairn"
-version = "0.2.0"
+version = "0.2.3"
 description = "Cairn — memory, disk and asset-protection utility (Tauri)"
 edition = "2021"
 rust-version = "1.90"

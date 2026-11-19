@@ -125,6 +125,46 @@ export interface BackupRecord {
   tail: string;
 }
 
+export interface BackupFolder {
+  remote: string;
+  id: string;
+}
+
+export interface BackupCheckpoint {
+  base: string;
+  source: string;
+  active: BackupFolder;
+  pending: {
+    remote: string;
+    folderId: string | null;
+    phase: "uploading" | "ready" | "removing";
+  } | null;
+  retained: BackupFolder[];
+}
+
+export interface BackupFileChanges {
+  added: { count: number; examples: string[] };
+  changed: { count: number; examples: string[] };
+  removed: { count: number; examples: string[] };
+}
+
+export type BackupCheckpointAction = "keep" | "removePrevious" | "removeRetained";
+
+export interface CheckpointScheduleSettings {
+  source: string;
+  remote: string;
+  enabled: boolean;
+  intervalDays: number;
+  maxSaved: number;
+}
+
+export interface CheckpointSchedule extends CheckpointScheduleSettings {
+  nextAt: number;
+  lastCompletedAt: number | null;
+  outcome: "waiting" | "completed" | "limit" | "review" | "failed";
+  error: string | null;
+}
+
 /** Edition capabilities — `pro` flips watchdog/backup/vault limits on. */
 export interface AppCaps {
   pro: boolean;
@@ -164,6 +204,18 @@ export const api = {
   backupRun: (source: string, remote: string) =>
     invoke<BackupResult>("backup_run", { source, remote }),
   backupHistory: () => invoke<BackupRecord[]>("backup_history"),
+  backupCheckpointStatus: (remote: string) =>
+    invoke<BackupCheckpoint | null>("backup_checkpoint_status", { remote }),
+  backupCheckpointStage: (source: string, remote: string) =>
+    invoke<BackupCheckpoint>("backup_checkpoint_stage", { source, remote }),
+  backupCheckpointFinish: (remote: string, action: BackupCheckpointAction, target: string) =>
+    invoke<BackupCheckpoint>("backup_checkpoint_finish", { remote, action, target }),
+  backupCheckpointCompare: (remote: string, previous?: string) =>
+    invoke<BackupFileChanges>("backup_checkpoint_compare", { remote, previous }),
+  backupCheckpointSchedule: (remote: string) =>
+    invoke<CheckpointSchedule | null>("backup_checkpoint_schedule", { remote }),
+  backupCheckpointConfigure: (settings: CheckpointScheduleSettings) =>
+    invoke<CheckpointSchedule>("backup_checkpoint_configure", { settings }),
   licenseStatus: () => invoke<LicenseInfo | null>("license_status"),
   licenseActivate: (key: string) => invoke<LicenseInfo>("license_activate", { key }),
   autostartEnabled: () => invoke<boolean>("autostart_enabled"),
@@ -190,4 +242,8 @@ export function onBackupLine(cb: (line: string) => void): Promise<UnlistenFn> {
 
 export function onBackupDone(cb: (ok: boolean) => void): Promise<UnlistenFn> {
   return listen<boolean>("cairn://backup-done", (event) => cb(event.payload));
+}
+
+export function onBackupUpdated(cb: () => void): Promise<UnlistenFn> {
+  return listen("cairn://backup-updated", cb);
 }

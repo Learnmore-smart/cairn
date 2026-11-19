@@ -26,6 +26,9 @@ use tauri_plugin_autostart::ManagerExt;
 
 const MAIN_WINDOW: &str = "main";
 const MAIN_TRAY: &str = "main";
+/// Launch arg the autostart Run entry carries — boots to the tray without
+/// popping the window.
+const AUTOSTART_ARG: &str = "--minimized";
 const VAULT_FILE: &str = "cairn-vault.json";
 const SCAN_FILE: &str = "cairn-last-scan.json";
 /// Open-core split — compile-time edition flag (`--features pro`).
@@ -53,6 +56,12 @@ fn app_caps(state: State<AppState>) -> AppCaps {
         },
         platform: std::env::consts::OS,
     }
+}
+
+/// True when the process was launched by the login autostart entry —
+/// the window stays hidden and Cairn lives in the tray until summoned.
+fn launched_hidden(args: impl IntoIterator<Item = String>) -> bool {
+    args.into_iter().any(|a| a == AUTOSTART_ARG)
 }
 
 fn now_secs() -> u64 {
@@ -627,7 +636,7 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
-            None,
+            Some(vec![AUTOSTART_ARG]),
         ))
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_process::init())
@@ -673,6 +682,12 @@ pub fn run() {
                     pro::commands::backup_remotes,
                     pro::commands::backup_run,
                     pro::commands::backup_history,
+                    pro::commands::backup_checkpoint_status,
+                    pro::commands::backup_checkpoint_stage,
+                    pro::commands::backup_checkpoint_finish,
+                    pro::commands::backup_checkpoint_compare,
+                    pro::commands::backup_checkpoint_schedule,
+                    pro::commands::backup_checkpoint_configure,
                     pro::commands::license_status,
                     pro::commands::license_activate,
                     autostart_enabled,
@@ -704,6 +719,15 @@ pub fn run() {
             }
         })
         .setup(|app| {
+            // Refresh a stale login entry so the Run command carries
+            // AUTOSTART_ARG — installs enabled before the flag existed
+            // would otherwise keep popping the window at every sign-in.
+            {
+                let mgr = app.autolaunch();
+                if mgr.is_enabled().unwrap_or(false) {
+                    let _ = mgr.enable();
+                }
+            }
             if let Ok(dir) = app.path().app_data_dir() {
                 let st = app.state::<AppState>();
                 *st.data_dir.lock().unwrap() = Some(dir.clone());
@@ -733,7 +757,10 @@ pub fn run() {
 
                 // A running watchdog stays armed across restarts (Pro).
                 #[cfg(feature = "pro")]
-                pro::commands::rearm(app.handle(), &dir);
+                {
+                    pro::commands::rearm(app.handle(), &dir);
+                    pro::commands::start_checkpoint_scheduler(app.handle(), &dir);
+                }
 
                 // Background disk picture at launch — the drive the user
                 // last scanned (or the best-guess data drive) starts
@@ -821,9 +848,32 @@ pub fn run() {
                         let _ = w2.hide();
                     }
                 });
+                // The window is created hidden (config `visible: false`):
+                // login autostart leaves it tucked in the tray, every
+                // other launch shows it.
+                if !launched_hidden(std::env::args()) {
+                    let _ = w.show();
+                    let _ = w.set_focus();
+                }
             }
             Ok(())
         })
         .run(tauri::generate_context!())
         .expect("error while running Cairn");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hidden_only_with_autostart_arg() {
+        assert!(launched_hidden(
+            ["cairn.exe".into(), AUTOSTART_ARG.into()].into_iter()
+        ));
+        assert!(!launched_hidden(["cairn.exe".into()].into_iter()));
+        assert!(!launched_hidden(
+            ["cairn.exe".into(), "--other".into()].into_iter()
+        ));
+    }
 }
