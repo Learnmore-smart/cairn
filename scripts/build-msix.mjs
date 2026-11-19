@@ -14,7 +14,7 @@ const MSIX_OUT = path.join(OUT_DIR, `Cairn-${storeVersion}-x64.msix`);
 
 // Store identity: Partner Center assigns Package/Identity/Name on product
 // create. Pass it via MSIX_IDENTITY_NAME (or hardcode once known).
-const IDENTITY_NAME = process.env.MSIX_IDENTITY_NAME || 'NoahZixinZhang.Cairn-SystemGuardBackup';
+const IDENTITY_NAME = process.env.MSIX_IDENTITY_NAME || 'NoahZixinZhang.CairnSystemGuardBackup';
 const PUBLISHER = 'CN=30D8BDA3-D85F-4867-B2BE-4EA1E4D27AED';
 
 const MAKEAPPX = 'C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\makeappx.exe';
