@@ -1,0 +1,11 @@
+{
+  "version": "0.2.4",
+  "notes": "Cairn Free 0.2.4 for Windows x64 adds a per-process localhost and Node.js tracker to the Radar and ends processes without confirmation dialogs.",
+  "pub_date": "2026-11-25T16:49:11.661Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTWFBpYnc0Rk5td2FKd3FMM0U3UGpaNHNiSWE1UVdLVmhTWmQ2aVE4N0VGOUZ3TTZXOG1YYldTZWFGWEVtbnlVRjBIallOUzEvSXdwdlM1NWw4K281UklhQXNNMjZCNlE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NjI1MzI2CWZpbGU6Q2Fpcm5fMC4yLjRfeDY0LXNldHVwLmV4ZQl2ZXJzaW9uOjAuMi40CmFBN09iRExteWxrT2hYbEZqaWdrZ0pnQ0pmWVRMTFZQVk9xd1VXYUxBcWtoNmdPdk0vY2FUQnJEcG5CeEMxRGFNeWNPVEphb25iNnUyOGxEbWM2c0FnPT0K",
+      "url": "https://github.com/Learnmore-smart/cairn/releases/download/v0.2.4/Cairn-Setup-Windows-x64.exe"
+    }
+  }
+}

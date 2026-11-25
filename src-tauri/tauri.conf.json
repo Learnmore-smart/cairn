@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Cairn",
+  "version": "0.2.4",
+  "identifier": "dev.supastack.cairn",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "pnpm dev:ui",
+    "beforeBuildCommand": "pnpm build:ui"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Cairn",
+        "label": "main",
+        "visible": false,
+        "width": 1160,
+        "height": 760,
+        "minWidth": 880,
+        "minHeight": 560,
+        "resizable": true
+      }
+    ],
+    "security": {}
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEMxNjY1M0UwRjAyNjNFOTcKUldTWFBpYnc0Rk5td2Nqd1poTWVjSjNhemlKYTFEcUtTcmIxNUt0T3VSSkZKdkJqc3R1TnRPVGQK",
+      "endpoints": [
+        "https://github.com/Learnmore-smart/cairn/releases/latest/download/latest.json"
+      ],
+      "windows": { "installMode": "passive" }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "createUpdaterArtifacts": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

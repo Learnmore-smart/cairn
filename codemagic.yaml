@@ -1,0 +1,47 @@
+# Codemagic pipeline for the macOS build of Cairn (free edition).
+# The Windows installer is built locally; this workflow produces the
+# universal .dmg + the signed .app.tar.gz updater artifacts on macOS.
+# Signing: create an environment group `cairn_signing` holding
+#   TAURI_SIGNING_PRIVATE_KEY   (contents of ~/.cairn/updater.key)
+#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD (may stay empty)
+# then tag a release (v*) or start a build manually.
+workflows:
+  cairn-macos:
+    name: Cairn macOS (universal)
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+    environment:
+      groups:
+        - cairn_signing
+    triggering:
+      events:
+        - tag
+    scripts:
+      - name: Rust toolchain
+        script: |
+          set -e
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+          fi
+          . "$HOME/.cargo/env"
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+          cargo --version
+      - name: JS dependencies
+        script: |
+          set -ex
+          # packageManager pins pnpm@11 — corepack supplies it without a
+          # global install; npm -g is only a fallback and may need a prefix.
+          command -v pnpm >/dev/null 2>&1 || corepack enable || true
+          command -v pnpm >/dev/null 2>&1 || npm install -g pnpm@11
+          pnpm --version
+          pnpm install
+      - name: Tauri build (universal dmg + updater artifacts)
+        script: |
+          set -e
+          . "$HOME/.cargo/env"
+          pnpm tauri build --target universal-apple-darwin
+          find src-tauri/target/universal-apple-darwin/release/bundle -type f | sort
+    artifacts:
+      - src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+      - src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app.tar.gz
+      - src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app.tar.gz.sig
